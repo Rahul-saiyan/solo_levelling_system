@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solo Leveling System Replica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Lato:wght@400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background-color: #121212; /* Dark grey-black */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      background-image: url('https://assets.onecompiler.app/42wnk6jxp/436w943dt/1737624119495%20(1).jpg');
+      background-size: cover;background-repeat: no-repeat;background-position: center;
+    }
+
+    .system-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+    }
+
+    .content-container, .daily-quests-container {
+      text-align: center;
+      padding: 20px;
+      background-color: #1c1c1c;
+      border-radius: 0px;
+      box-shadow: 0 0 20px rgba(0, 188, 212, 0.8);
+      width: 80%;
+      max-width: 600px;
+      display: none;
+      background-color: transparent;
+    }
+
+    .content-container.active, .daily-quests-container.active {
+      display: block;
+    }
+
+    .header {
+      font-size: 2.8em; /* Increased by 40% */
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 12px #00bcd4, 0 0 25px #00bcd4;
+    }
+
+    .system-notification-header {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400; /* Regular weight */
+    font-size: 3.3em; /* Doubled the size */
+    color: #ffffff;
+    margin-bottom: 20px;
+    padding: 20px; /* Add some padding around the text */
+    border-radius: 0px; /* Rounded corners */
+    border: 3px solid white; /* White border with 3px thickness */
+  }
+
+
+    .content, .quests-list {
+      margin-top: 20px;
+      line-height: 1.8;
+      color: #ffffff;
+      text-shadow: 0 0 8px #ffffff, 0 0 15px #ffffff;
+    }
+
+    .content p, .quests-list p {
+      font-size: 1.1em;
+    }
+
+    .button, .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      color: #ffffff;
+      font-size: 1.1em;
+      font-family: 'Lato', sans-serif;
+      background-color: transparent;
+      border: none;
+      border-radius: 0px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 188, 212, 0.8), 0 0 30px rgba(0, 188, 212, 1);
+      text-shadow: 0 0 10px #ffffff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover, .back-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 35px rgba(0, 188, 212, 1), 0 0 50px rgba(0, 188, 212, 1);
+    }
+
+    .quests-list {
+      text-align: left;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .quest-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #00bcd4;
+    }
+
+    .quest-item:last-child {
+      border-bottom: none;
+    }
+
+    .quest-name {
+      color: #ffffff;
+    }
+
+    .quest-status, .quest-xp {
+      color: #00bcd4;
+    }
+
+    .quest-checkbox {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background-color: #2c2c2c;
+      border: 2px solid #00bcd4;
+      border-radius: 0px;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s, border 0.3s;
+    }
+
+    .quest-checkbox:checked {
+      background-color: transparent;
+      border-color: #00bcd4;
+    }
+
+    .quest-checkbox:checked::after {
+      content: '✓';
+      color: #32CD32;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 20px;
+      position: absolute;
+      top: 0;
+      left: 3px;
+    }
+
+    .quest-checkbox:hover {
+      background-color: #00bcd4;
+      border-color: #00bcd4;
+    }
+  </style>
+</head>
+<body>
+  <div class="system-container">
+    <div id="main-content" class="content-container active">
+      <div class="header system-notification-header">NOTIFICATION</div>
+      <div class="content">
+        <p><strong>Quest Name:</strong> Hunter's Trial</p>
+        <p><strong>Quest Level:</strong> Easy</p>
+        <p><strong>Objective:</strong> Eliminate 10 monsters</p>
+        <p><strong>Time Limit:</strong> 24 hours</p>
+        <p><strong>XP Reward:</strong> 500 XP</p>
+        <p><strong>Condition:</strong> Must be completed within the time limit</p>
+      </div>
+      <button class="button" onclick="acceptQuest()">ACCEPT QUEST</button>
+      <button class="button" onclick="switchTo('quests')">DAILY QUESTS</button>
+    </div>
+
+    <div id="quests-page" class="daily-quests-container">
+      <div class="header">DAILY QUESTS</div>
+      <div class="quests-list">
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">No games</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Meditation for 10 minutes</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Hydrated/hour</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Daily revision</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Dry fruits</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Push-ups (20)</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Pull-ups (20)</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Six and a half hours of sleep</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Remind the big goal</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Respect</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Be good</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Remind every hour</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Brush twice</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">No Network Hour</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Read 5 pages</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Learn two new words</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Learn about the universe (M&N)</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Aptitude practice (20 minutes)</span>
+        </div>
+        <div class="quest-item">
+          <input type="checkbox" class="quest-checkbox">
+          <span class="quest-name">Learn a new snippet (20 minutes)</span>
+        </div>
+      </div>
+      <button class="back-button" onclick="switchTo('main')">Back to Main</button>
+    </div>
+  </div>
+
+  <script>
+    // Fix for the black screen issue
+    function switchTo(page) {
+      document.getElementById('main-content').classList.remove('active');
+      document.getElementById('quests-page').classList.remove('active');
+      
+      if (page === 'main') {
+        document.getElementById('main-content').classList.add('active');
+      } else if (page === 'quests') {
+        document.getElementById('quests-page').classList.add('active');
+      }
+    }
+
+    function acceptQuest() {
+      alert('Quest Accepted!');
+    }
+  </script>
+</body>
+</html>
